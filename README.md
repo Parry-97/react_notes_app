@@ -1,4 +1,4 @@
-# Notes app 
+# Notes / TODO app 
 Simple Note taking app created using: 
 * Mongo DB + Prisma
 * React + React Query
