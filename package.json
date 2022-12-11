@@ -6,9 +6,10 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app.js",
-    "dev": "nodemon app.js",
-    "build:ui": "rm -rf dist && cd ../notes_react/ && npm run build && cp -r dist ../node_starter/dist",
+    "start": "NODE_ENV=production node app.js",
+    "dev": "NODE_ENV=development nodemon app.js",
+    "lint": "eslint .",
+    "build:ui": "rm -rf build && cd ../notes_react/ && npm run build && cp -r dist ../node_starter/build",
     "deploy": "fly deploy",
     "deploy:full": "npm run build:ui && npm run deploy"
   },
