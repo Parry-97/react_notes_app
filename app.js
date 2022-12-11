@@ -1,8 +1,9 @@
 //const http = require('http')
+import { unknownEndpoint, errorHandler } from "./utils/middleware.js";
 import express from "express";
 import morgan from "morgan";
 import cors from "cors";
-import notes_Router from "./controllers/notes";
+import notes_Router from "./controllers/notes.js";
 // The Prisma Client API is generated based on the models in your Prisma schema
 
 /**
@@ -41,15 +42,12 @@ const logger = morgan(
   ":method :url :status :res[content-length] - :response-time ms :resbody"
 );
 app.use(logger);
-
 app.use("/api/notes", notes_Router);
 /**There are also situations where we want to define middleware functions after routes.
  * In practice, this means that we are defining middleware functions that are only
  * called if no route handles the HTTP request. */
-const unknownEndpoint = (request, response) => {
-  response.status(404).send({ error: "unknown endpoint" });
-};
-
-app.use(unknownEndpoint);
+// app.use(middleware.requestLogger)
+app.use(unknownEndpoint)
+app.use(errorHandler)
 
 export default app;
