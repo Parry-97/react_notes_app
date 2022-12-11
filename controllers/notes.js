@@ -1,18 +1,14 @@
-import { Router } from "express";
+import express from "express";
 import { PrismaClient } from "@prisma/client";
 
-const notes_Router = Router();
+const notes_Router = express.Router();
 
 const prisma = new PrismaClient({
   errorFormat: "pretty",
 });
 
 
-notes_Router.get("/", (response) => {
-  response.send("<h1>Hello World!</h1>");
-});
-
-notes_Router.get("/", async (response) => {
+notes_Router.get("/", async (request, response) => {
   const notes = await prisma.note.findMany();
   response.send(notes);
 });

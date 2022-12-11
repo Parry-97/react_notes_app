@@ -1,6 +1,6 @@
 import app from "./app.js";
 import http from "http";
-import { info } from "./utils/logger";
+import logger from "./utils/logger.js";
 
 let PORT = 3001;
 
@@ -11,6 +11,6 @@ if (process.env.NODE_ENV == "production") {
 
 const server = http.createServer(app);
 server.listen(PORT, () => {
-  info(`Server is listening on port ${PORT}`);
+  logger.info(`Server is listening on port ${PORT}`);
 })
 
