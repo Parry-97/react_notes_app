@@ -52,13 +52,13 @@ const prisma = new PrismaClient({
 app.use(cors());
 app.use(express.static("dist"));
 /**Middleware are functions that can be used for handling request and response objects. */
-const requestLogger = (request, response, next) => {
-  console.log("Method:", request.method);
-  console.log("Path:  ", request.path);
-  console.log("Body:  ", request.body);
-  console.log("---");
-  next();
-};
+// const requestLogger = (request, response, next) => {
+//   console.log("Method:", request.method);
+//   console.log("Path:  ", request.path);
+//   console.log("Body:  ", request.body);
+//   console.log("---");
+//   next();
+// };
 /**json-parser is also a middleware */
 app.use(express.json());
 
@@ -66,7 +66,7 @@ app.use(express.json());
  * object's use method. Notice that json-parser is taken into use before the requestLogger middleware,
  * because otherwise request.body will not be initialized when the logger is executed! */
 // app.use(requestLogger);
-morgan.token("resbody", (request, response) =>
+morgan.token("resbody", (request) =>
   request.method == "POST" ? JSON.stringify(request.body) : ""
 );
 const logger = morgan(
