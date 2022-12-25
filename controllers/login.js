@@ -6,7 +6,7 @@ import express from "express";
 const login_router = express.Router();
 const prisma = new PrismaClient();
 
-const checkUsernameExists = async (request, response, next) => {
+const checkUsernameExists = async (request, _response, next) => {
   const { username, password } = request.body;
   const user = await prisma.user.findUnique({
     where: {
@@ -27,7 +27,7 @@ const checkUsernameExists = async (request, response, next) => {
   }
 };
 
-const checkPasswordCorrect = async (request, response, next) => {
+const checkPasswordCorrect = async (request, _response, next) => {
   const password = request.body.password;
   const user = request.body.user;
   const isPasswordCorrect = await bcrypt.compare(password, user.passwordHash);
@@ -61,7 +61,7 @@ login_router.post(
     // variable SECRET as the secret. The digital signature ensures that only
     // parties who know the secret can generate a valid token. The value for the
     // environment variable must be set in the .env file.
-
+    // console.log(process.env.SECRET);
     const token = jwt.sign(userForToken, process.env.SECRET, {
       expiresIn: 60 * 60,
     });

@@ -12,10 +12,13 @@ model Note {
   content   String
   date      DateTime @db.Date @default(now())
   important Boolean
+  user      User? @relation(references: [id],fields: [userId])
+  userId    String? @db.ObjectId
 }
 model User {
   id String @id @default(auto()) @map("_id") @db.ObjectId
   name String
   username String @unique
   passwordHash String
+  notes Note[]
 }

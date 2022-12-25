@@ -7,15 +7,14 @@ const users_router = express.Router();
 
 users_router.get("/", async (_request, response) => {
   const users = await prisma.user.findMany({
-    // include: {
-    //   // blogs: true,
-    //   blogs: {
-    //     select: {
-    //       title: true,
-    //       url: true,
-    //     },
-    //   },
-    // },
+    include: {
+      notes: {
+        select: {
+          content: true,
+          date: true,
+        },
+      },
+    },
   });
   // console.log(users);
   response.json(users);

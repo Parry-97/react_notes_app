@@ -6,6 +6,8 @@ import express from "express";
 import morgan from "morgan";
 import cors from "cors";
 import notes_Router from "./controllers/notes.js";
+import users_Router from "./controllers/users.js";
+import login_Router from "./controllers/login.js";
 // The Prisma Client API is generated based on the models in your Prisma schema
 
 /**
@@ -22,9 +24,9 @@ const app = express();
 //For more info on cors middleware check GH repo. This is default for accepting all CORS requests
 /**Middleware are functions that can be used for handling request and response objects. */
 /**json-parser is also a middleware */
-app.use(cors())
-app.use(express.static('build'))
-app.use(express.json())
+app.use(cors());
+app.use(express.static("build"));
+app.use(express.json());
 morgan.token("resbody", (request) =>
   request.method == "POST" ? JSON.stringify(request.body) : ""
 );
@@ -32,8 +34,10 @@ const logger = morgan(
   ":method :url :status :res[content-length] - :response-time ms :resbody"
 );
 app.use(logger);
-app.use('/api/notes', notes_Router)
 
+app.use("/api/login", login_Router);
+app.use("/api/users", users_Router);
+app.use("/api/notes", notes_Router);
 /**Middleware functions are called in the order that they're taken into use with the express server
  * object's use method. Notice that json-parser is taken into use before the requestLogger middleware,
  * because otherwise request.body will not be initialized when the logger is executed! */
@@ -43,7 +47,7 @@ app.use('/api/notes', notes_Router)
  * In practice, this means that we are defining middleware functions that are only
  * called if no route handles the HTTP request. */
 // app.use(middleware.requestLogger)
-app.use(unknownEndpoint)
-app.use(errorHandler)
+app.use(unknownEndpoint);
+app.use(errorHandler);
 
 export default app;

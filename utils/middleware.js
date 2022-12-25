@@ -1,10 +1,10 @@
 import logger from "./logger.js";
 
-const unknownEndpoint = (request, response) => {
+const unknownEndpoint = (_request, response) => {
   response.status(404).send({ error: "unknown endpoint" });
 };
 
-const errorHandler = (error, request, response, next) => {
+const errorHandler = (error, _request, response, _next) => {
   logger.error(error.message);
   if (error.name === "CastError") {
     response.status(400).send({ error: "malformatted id" });
