@@ -25,15 +25,19 @@ users_router.post("/", async (request, response) => {
 
   const saltRounds = 10;
   const passwordHash = await bcrypt.hash(password, saltRounds);
-  const savedUser = await prisma.user.create({
-    data: {
-      username: username,
-      passwordHash: passwordHash,
-      name: name,
-    },
-  });
+  try {
+    const savedUser = await prisma.user.create({
+      data: {
+        username: username,
+        passwordHash: passwordHash,
+        name: name,
+      },
+    });
 
-  response.status(201).json(savedUser);
+    response.status(201).json(savedUser);
+  } catch (error) {
+    next(error);
+  }
 });
 
 users_router.get("/:id", async (request, response) => {
