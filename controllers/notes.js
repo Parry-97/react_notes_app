@@ -1,4 +1,6 @@
 import express from "express";
+import jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
 import { PrismaClient } from "@prisma/client";
 
 const notes_Router = express.Router();
@@ -6,8 +8,36 @@ const notes_Router = express.Router();
 const prisma = new PrismaClient({
   errorFormat: "pretty",
 });
+const getTokenFrom = (request) => {
+  const authorization = request.get("authorization");
+  if (authorization && authorization.toLowerCase().startsWith("bearer ")) {
+    return authorization.substring(7);
+  }
+  return null;
+};
+const verifyToken = async (request, response, next) => {
+  const token = getTokenFrom(request);
+  try {
+    decoded = jwt.verify(token, process.env.SECRET);
+    request.body = { ...request.body, decoded };
+    next();
+  } catch (error) {
+    next(error);
+  }
+};
 
-
+const verifyUser = async (request, response, next) => {
+  const userId = request.body.decoded.id;
+  try {
+    await prisma.user.findUniqueOrThrow({
+      where: {
+        id: userId,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
 notes_Router.get("/", async (request, response) => {
   const notes = await prisma.note.findMany();
   response.send(notes);
