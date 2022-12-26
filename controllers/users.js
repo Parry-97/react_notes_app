@@ -20,7 +20,7 @@ users_router.get("/", async (_request, response) => {
   response.json(users);
 });
 
-users_router.post("/", async (request, response) => {
+users_router.post("/", async (request, response, next) => {
   const { username, name, password } = request.body;
 
   const saltRounds = 10;
