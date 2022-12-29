@@ -6,6 +6,7 @@
   "main": "index.js",
   "scripts": {
     "test": "dotenv -e .env.test jest --verbose",
+    "start:test": "dotenv -e .env.test nodemon index.js",
     "start": "node index.js",
     "dev": "dotenv -e .env.development nodemon index.js",
     "lint": "eslint .",
