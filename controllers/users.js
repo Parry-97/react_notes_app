@@ -28,8 +28,8 @@ users_router.get(
 
 users_router.post(
   "/",
-  authenticator.verifyToken,
-  authenticator.verifyUser,
+  // authenticator.verifyToken,
+  // authenticator.verifyUser,
   async (request, response, next) => {
     const { username, name, password } = request.body;
 
@@ -53,8 +53,8 @@ users_router.post(
 
 users_router.get(
   "/:id",
-  authenticator.verifyToken,
-  authenticator.verifyUser,
+  // authenticator.verifyToken,
+  // authenticator.verifyUser,
   async (request, response) => {
     const userid = request.params.id;
     const found = await prisma.user.findUnique({
